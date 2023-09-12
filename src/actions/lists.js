@@ -20,7 +20,8 @@ export function getLists(quantity) {
             id: count,
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
-            title: faker.name.jobTitle()
+            title: faker.name.jobTitle(),
+            timedue: Math.floor(Math.random()*604800000) + (Date.now() - 86400000)
           });
           count = count + 1;
         }
