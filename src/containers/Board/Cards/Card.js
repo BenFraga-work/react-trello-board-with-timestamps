@@ -8,24 +8,34 @@ const propTypes = {
 const galPng = require('../../../assets/images/gal.png');
 const delPng = require('../../../assets/images/del.png');
 
+const DAY = 86400000;
+const HOUR = 3600000;
+const MINUTE = 60000;
+const SECOND = 1000;
+
 function timeformat(timee) {
   let ftime = "";
   let past = false;
-  if (timee < 0) {timee = 0-timee; past = true}
-  if (timee/86400000 > 1) {ftime += Math.floor(timee/86400000) + 'd';};
-  let ttime = timee%86400000;
-  if (ttime/3600000 > 1) {ftime += Math.floor(ttime/3600000) + 'h';};
-  ttime = ttime%3600000;
-  if (ttime/60000 > 1) {ftime += Math.floor(ttime/60000) + 'm';};
-  ttime = ttime%60000;
-  ftime += Math.floor(ttime/1000) + 's '+ ["until","past"][Number(past)] + ' deadline';
+  if (timee < 0) {timee = 0-timee; past = true};
+  if (timee/DAY > 1) {ftime += Math.floor(timee/DAY) + 'd';};
+  let ttime = timee%DAY;
+  if (ttime/HOUR > 1) {ftime += Math.floor(ttime/HOUR) + 'h';};
+  ttime = ttime%HOUR;
+  if (ttime/MINUTE > 1) {ftime += Math.floor(ttime/MINUTE) + 'm';};
+  ttime = ttime%MINUTE;
+  ftime += Math.floor(ttime/SECOND) + 's '+ ["until","past"][Number(past)] + ' deadline';
   return ftime;
 };
-function test(tests) {return tests}
+
+const COLOR_OK = '#88ff88';
+const COLOR_WARN = '#ffff88';
+const COLOR_OVERDUE = '#ff8888';
+
+function getcolorfromtime(timee) {return {background: [COLOR_OVERDUE, COLOR_WARN, COLOR_OK][Number(timee > Date.now()) + Number(timee - DAY > Date.now())]}}
 
 const Card = (props) => {
   const { style, item } = props;
-  let styledate = {background: ['#ff8888','#ffff88','#88ff88'][Number(item.timedue > Date.now()) + Number(item.timedue - 86400000 > Date.now())]}
+  let styledate = getcolorfromtime(item.timedue)
   return (
     <div style={style} className="item" id={style ? item.id : null}>
       <div className="item-name">{item.title}</div>
