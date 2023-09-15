@@ -13,7 +13,7 @@ const HOUR = 3600000;
 const MINUTE = 60000;
 const SECOND = 1000;
 
-function timeformat(timee) {
+export function timeformat(timee) {
   let ftime = "";
   let past = false;
   if (timee < 0) {timee = 0-timee; past = true};
@@ -31,7 +31,7 @@ const COLOR_OK = '#88ff88';
 const COLOR_WARN = '#ffff88';
 const COLOR_OVERDUE = '#ff8888';
 
-function getcolorfromtime(timee) {return {background: [COLOR_OVERDUE, COLOR_WARN, COLOR_OK][Number(timee > Date.now()) + Number(timee - DAY > Date.now())]}}
+export function getcolorfromtime(timee) {return {background: [COLOR_OVERDUE, COLOR_WARN, COLOR_OK][Number(timee > Date.now()) + Number(timee - DAY > Date.now())]}}
 
 const Card = (props) => {
   const { style, item } = props;
